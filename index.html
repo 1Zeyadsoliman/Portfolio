@@ -4,23 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Zeyad Soliman — Frontend Developer specializing in React. Based in Cairo, Egypt.">
+    <meta name="theme-color" content="#000000">
+
+    <!-- Social sharing (LinkedIn / WhatsApp). Add an og:image (1200x630) when you have one. -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Zeyad Soliman — Frontend Developer">
+    <meta property="og:description" content="React developer based in Cairo. Projects, skills, certifications and resume.">
+    <meta property="og:url" content="https://1zeyadsoliman.github.io/Portfolio/">
+    <meta name="twitter:card" content="summary">
+
     <title>ZEYAD SOLIMAN — FRONTEND DEVELOPER</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Ctext x='50' y='72' font-size='70' font-family='Impact,sans-serif' text-anchor='middle' fill='%23cc1a1a'%3EZ%3C/text%3E%3C/svg%3E">
+
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js" defer></script>
 </head>
 <body>
 
-    <!-- Custom Cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-ring"></div>
+    <!-- Custom Cursor (only shown for mouse users, see CSS) -->
+    <div class="cursor" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
 
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid px-4">
             <a class="navbar-brand" href="#home"><span class="brand-arrow">▸</span> ZEYAD SOLIMAN</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" title="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="toggler-line"></span>
                 <span class="toggler-line"></span>
                 <span class="toggler-line"></span>
@@ -31,6 +42,7 @@
                     <a class="nav-link" href="#about">ABOUT</a>
                     <a class="nav-link" href="#projects">PROJECTS</a>
                     <a class="nav-link" href="#skills">SKILLS</a>
+                    <a class="nav-link" href="#certifications">CERTIFICATIONS</a>
                     <a class="nav-link" href="#contact">CONTACT</a>
                     <a class="nav-link hire-me" href="#contact">HIRE ME</a>
                 </div>
@@ -40,19 +52,17 @@
 
     <!-- HERO SECTION -->
     <section id="home" class="hero-section">
-        <canvas id="stars"></canvas>
+        <canvas id="stars" aria-hidden="true"></canvas>
         <div class="hero-nebula"></div>
         <div class="container hero-container">
             <div class="hero-content">
                 <div class="hero-label">▸ FRONTEND DEVELOPER</div>
                 <h1 class="hero-name">ZEYAD<br>SOLIMAN</h1>
-                <p class="hero-typewriter">I AM A <span id="typed"></span></p>
-                <p class="hero-meta">CS student at Modern Academy · Available for junior roles · Cairo, Egypt</p>
+                <p class="hero-typewriter">I AM A <span id="typed">FRONTEND DEVELOPER</span></p>
+                <p class="hero-meta">CS student at Modern Academy · Final year · Available for junior roles · Cairo, Egypt</p>
                 <div class="hero-ctas">
                     <a href="#projects" class="btn-primary-cta">VIEW PROJECTS</a>
-                    <a href="https://1zeyadsoliman.github.io/Portfolio/resume.pdf.pdf" 
-   download 
-   class="btn-secondary-cta">DOWNLOAD RESUME</a>
+                    <a href="Resume.pdf" download="Zeyad-Soliman-Resume.pdf" class="btn-secondary-cta">DOWNLOAD RESUME</a>
                 </div>
                 <div class="hero-divider">
                     <span class="divider-line"></span>
@@ -61,12 +71,12 @@
                 </div>
             </div>
         </div>
-        <div class="scroll-indicator">↓</div>
+        <div class="scroll-indicator" aria-hidden="true">↓</div>
     </section>
 
     <!-- ABOUT SECTION -->
     <section id="about" class="section about-section">
-        <div class="section-bg-number">02</div>
+        <div class="section-bg-number" aria-hidden="true">01</div>
         <div class="container">
             <div class="section-header">
                 <span class="section-number">01</span>
@@ -78,7 +88,7 @@
                     <div class="about-text">
                         <p>I'm Zeyad — a frontend developer based in Cairo, building interfaces that are fast, clean, and intentional.</p>
                         <p>I started coding in 2022 when I stumbled across a beautifully designed web app and realized someone had built that — every pixel, every interaction — with nothing but code. That moment changed everything. Since then I've been obsessed with the intersection of engineering and design.</p>
-                        <p>I specialize in the React ecosystem and I care deeply about how things feel — not just how they work. Currently looking for a junior role where I can ship real products alongside engineers I can learn from.</p>
+                        <p>I specialize in the React ecosystem and I care deeply about how things feel — not just how they work. I've also trained in ASP.NET on the backend side. Currently looking for a junior role or internship where I can ship real products alongside engineers I can learn from.</p>
                     </div>
                 </div>
                 <div class="col-lg-5">
@@ -94,11 +104,11 @@
                         </div>
                         <div class="mission-row">
                             <span class="mission-label">LEVEL</span>
-                            <span class="mission-value">Junior · Year 3</span>
+                            <span class="mission-value">Junior · Final-year CS student</span>
                         </div>
                         <div class="mission-row">
                             <span class="mission-label">STACK</span>
-                            <span class="mission-value">React · Tailwind · Vite</span>
+                            <span class="mission-value">React · Tailwind · Vite · ASP.NET</span>
                         </div>
                         <div class="mission-row">
                             <span class="mission-label">STATUS</span>
@@ -266,8 +276,12 @@
                         <span class="skill-items">React 19  Tailwind CSS 4  Bootstrap 5</span>
                     </div>
                     <div class="skill-row">
+                        <span class="skill-category">BACKEND</span>
+                        <span class="skill-items">ASP.NET  C#  REST APIs</span>
+                    </div>
+                    <div class="skill-row">
                         <span class="skill-category">TOOLING</span>
-                        <span class="skill-items">Vite  Git  GitHub  VS Code</span>
+                        <span class="skill-items">Vite  Git  GitHub  VS Code  Visual Studio</span>
                     </div>
                     <div class="skill-row">
                         <span class="skill-category">AI INTEGRATION</span>
@@ -275,7 +289,7 @@
                     </div>
                     <div class="skill-row">
                         <span class="skill-category">DESIGN</span>
-                        <span class="skill-items">Figma  Responsive Design  UI/UX</span>
+                        <span class="skill-items">Figma  Prototyping  Responsive Design  UI/UX</span>
                     </div>
                     <div class="skill-row no-border">
                         <span class="skill-category">LANGUAGES</span>
@@ -286,18 +300,86 @@
         </div>
     </section>
 
+    <!-- CERTIFICATIONS SECTION -->
+    <section id="certifications" class="section certs-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2 class="section-title">CERTIFICATIONS</h2>
+                <span class="section-rule"></span>
+            </div>
+
+            <div class="cert-list mt-4">
+
+                <!-- Cert 1: RAY Group -->
+                <article class="cert-card">
+                    <button type="button" class="cert-thumb" data-cert-open aria-haspopup="dialog" aria-label="View RAY Group certificate full size">
+                        <img src="assets/certificates/ray-advanced-web-development.jpg"
+                             alt="Certificate of Achievement from RAY Group for completing the Advanced Web Development training course"
+                             width="1216" height="871" loading="lazy">
+                        <span class="cert-thumb-hint">CLICK TO ENLARGE</span>
+                    </button>
+                    <div class="cert-body">
+                        <h3 class="cert-name">ADVANCED WEB DEVELOPMENT (ASP.NET)</h3>
+                        <div class="cert-issuer">RAY Group (Regional AI Yard Group)</div>
+                        <div class="project-rule"></div>
+                        <ul class="cert-points">
+                            <li>Completed and passed the Advanced Web Development training course conducted by RAY Group.</li>
+                            <li>Covered advanced front-end and back-end web development concepts, including ASP.NET, with practical hands-on applications.</li>
+                            <li>Demonstrated the required knowledge and skills to pass the training program.</li>
+                        </ul>
+                        <div class="project-tags">
+                            <span class="tag">ASP.NET</span>
+                            <span class="tag">C#</span>
+                            <span class="tag">Front-end</span>
+                            <span class="tag">Back-end</span>
+                        </div>
+                        <div class="project-links">
+                            <button type="button" class="link-demo" data-cert-open>VIEW CERTIFICATE</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Cert 2: Div Academy -->
+                <article class="cert-card cert-card-text">
+                    <div class="cert-body">
+                        <h3 class="cert-name">FRONT-END DEVELOPMENT COURSE</h3>
+                        <div class="cert-issuer">Div Academy</div>
+                        <div class="project-rule"></div>
+                        <ul class="cert-points">
+                            <li>Completed comprehensive front-end development training with practical experience in modern web technologies.</li>
+                        </ul>
+                        <div class="project-tags">
+                            <span class="tag">HTML5</span>
+                            <span class="tag">CSS3</span>
+                            <span class="tag">JavaScript</span>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CERTIFICATE VIEWER -->
+    <dialog class="cert-dialog" id="certDialog" aria-label="RAY Group certificate">
+        <button type="button" class="cert-dialog-close" data-cert-close aria-label="Close certificate">✕ CLOSE</button>
+        <img src="assets/certificates/ray-advanced-web-development.jpg"
+             alt="Certificate of Achievement from RAY Group, Advanced Web Development training course">
+    </dialog>
+
     <!-- CONTACT SECTION -->
     <section id="contact" class="section contact-section">
         <div class="container">
             <div class="section-header">
-                <span class="section-number">04</span>
+                <span class="section-number">05</span>
                 <h2 class="section-title">CONTACT</h2>
                 <span class="section-rule"></span>
             </div>
             <div class="row g-5 mt-2">
                 <div class="col-lg-5">
                     <h3 class="contact-tagline">OPEN FOR<br>MISSIONS</h3>
-                    <p class="contact-sub">Currently accepting junior frontend roles · Response within 24h</p>
+                    <p class="contact-sub">Currently accepting junior frontend roles and internships · Response within 24h</p>
                     <div class="contact-links mt-4">
                         <a href="mailto:zeyad.soliman200@gmail.com" class="contact-item">
                             <span class="contact-arrow">▸</span>
@@ -316,16 +398,16 @@
                 <div class="col-lg-7">
                     <form class="contact-form" action="https://formspree.io/f/xqewyjkv" method="POST">
                         <div class="form-group">
-                            <label class="form-label-custom">NAME</label>
-                            <input type="text" name="name" class="form-input" placeholder="Your name" required>
+                            <label class="form-label-custom" for="cf-name">NAME</label>
+                            <input type="text" id="cf-name" name="name" class="form-input" placeholder="Your name" autocomplete="name" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label-custom">EMAIL</label>
-                            <input type="email" name="email" class="form-input" placeholder="your@email.com" required>
+                            <label class="form-label-custom" for="cf-email">EMAIL</label>
+                            <input type="email" id="cf-email" name="email" class="form-input" placeholder="your@email.com" autocomplete="email" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label-custom">MESSAGE</label>
-                            <textarea name="message" class="form-input form-textarea" placeholder="Tell me about the mission..." rows="5" required></textarea>
+                            <label class="form-label-custom" for="cf-message">MESSAGE</label>
+                            <textarea id="cf-message" name="message" class="form-input form-textarea" placeholder="Tell me about the mission..." rows="5" required></textarea>
                         </div>
                         <button type="submit" class="btn-primary-cta w-100">SEND MESSAGE</button>
                     </form>

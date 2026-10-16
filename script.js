@@ -1,79 +1,97 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     // ── TYPED.JS ──────────────────────────────────────────────
-    var typed = new Typed('#typed', {
-        strings: [
-    'FRONTEND DEVELOPER',
-    'REACT DEVELOPER',
-    'UI ENGINEER',
-    'CREATIVE CODER'
-        ],
-        typeSpeed: 55,
-        backSpeed: 35,
-        backDelay: 2200,
-        loop: true,
-        cursorChar: '_',
-        smartBackspace: true
-    });
+    // The span already contains a fallback text, so nothing is empty if the CDN fails.
+    if (typeof Typed !== 'undefined' && !reduceMotion) {
+        new Typed('#typed', {
+            strings: [
+                'FRONTEND DEVELOPER',
+                'REACT DEVELOPER',
+                'UI ENGINEER',
+                'CREATIVE CODER'
+            ],
+            typeSpeed: 55,
+            backSpeed: 35,
+            backDelay: 2200,
+            loop: true,
+            cursorChar: '_',
+            smartBackspace: true
+        });
+    }
 
     // ── STAR FIELD ────────────────────────────────────────────
     const canvas = document.getElementById('stars');
     if (canvas) {
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
 
+        // Positions are stored as 0–1 fractions so they scale with the screen on resize
         const stars = Array.from({ length: 180 }, () => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
+            x: Math.random(),
+            y: Math.random(),
             r: Math.random() < 0.08 ? 1.5 : 0.8,
             o: Math.random() * 0.7 + 0.3,
             red: Math.random() < 0.06
         }));
 
-        stars.forEach(s => {
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-            ctx.fillStyle = s.red
-                ? `rgba(180,40,40,${s.o})`
-                : `rgba(240,237,232,${s.o})`;
-            ctx.fill();
-        });
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        function drawStars() {
+            const host = canvas.parentElement;
+            canvas.width = host.offsetWidth;
+            canvas.height = host.offsetHeight;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             stars.forEach(s => {
                 ctx.beginPath();
-                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.arc(s.x * canvas.width, s.y * canvas.height, s.r, 0, Math.PI * 2);
                 ctx.fillStyle = s.red
                     ? `rgba(180,40,40,${s.o})`
                     : `rgba(240,237,232,${s.o})`;
                 ctx.fill();
             });
+        }
+
+        drawStars();
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(drawStars, 100);
         });
     }
 
-    // ── CUSTOM CURSOR ─────────────────────────────────────────
+    // ── CUSTOM CURSOR (mouse users only) ──────────────────────
     const cursor = document.querySelector('.cursor');
     const ring = document.querySelector('.cursor-ring');
-    if (cursor && ring) {
+    const hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    if (cursor && ring && hasMouse) {
         document.addEventListener('mousemove', e => {
+            // Reveal only after the first movement so there is no stray dot at 0,0
+            cursor.classList.add('is-active');
+            ring.classList.add('is-active');
             cursor.style.left = e.clientX + 'px';
             cursor.style.top  = e.clientY + 'px';
             ring.style.left   = e.clientX + 'px';
             ring.style.top    = e.clientY + 'px';
         });
 
-        document.querySelectorAll('a, button, input, textarea').forEach(el => {
-            el.addEventListener('mouseenter', () => {
+        document.addEventListener('mouseleave', () => {
+            cursor.classList.remove('is-active');
+            ring.classList.remove('is-active');
+        });
+
+        // Delegated hover state, so elements added later also work
+        const interactive = 'a, button, input, textarea, label';
+        document.addEventListener('mouseover', e => {
+            if (e.target.closest(interactive)) {
                 ring.style.transform = 'translate(-50%, -50%) scale(1.8)';
                 ring.style.borderColor = 'var(--red-core)';
-            });
-            el.addEventListener('mouseleave', () => {
+            }
+        });
+        document.addEventListener('mouseout', e => {
+            if (e.target.closest(interactive)) {
                 ring.style.transform = 'translate(-50%, -50%) scale(1)';
                 ring.style.borderColor = 'var(--red-dim)';
-            });
+            }
         });
     }
 
@@ -82,10 +100,12 @@ document.addEventListener('DOMContentLoaded', function () {
     navLinks.forEach(link => {
         link.addEventListener('click', function (e) {
             e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
+            const targetSection = document.querySelector(this.getAttribute('href'));
             if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                targetSection.scrollIntoView({
+                    behavior: reduceMotion ? 'auto' : 'smooth',
+                    block: 'start'
+                });
                 // Close mobile navbar
                 const navbarCollapse = document.querySelector('.navbar-collapse');
                 if (navbarCollapse && navbarCollapse.classList.contains('show')) {
@@ -95,52 +115,72 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // ── ACTIVE NAV ON SCROLL ──────────────────────────────────
+    // ── ACTIVE NAV + NAVBAR BACKGROUND ON SCROLL ──────────────
     const sections = document.querySelectorAll('section[id]');
-    window.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar');
+
+    function onScroll() {
         let current = '';
         sections.forEach(s => {
             if (window.scrollY >= s.offsetTop - 220) current = s.id;
         });
         navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + current) {
-                link.classList.add('active');
-            }
+            const isActive = link.getAttribute('href') === '#' + current;
+            link.classList.toggle('active', isActive);
         });
 
-        // Navbar bg
-        const navbar = document.querySelector('.navbar');
         if (navbar) {
-            if (window.scrollY > 80) {
-                navbar.style.background = 'rgba(0,0,0,0.98)';
-            } else {
-                navbar.style.background = 'rgba(0,0,0,0.92)';
-            }
+            navbar.style.background = window.scrollY > 80
+                ? 'rgba(0,0,0,0.98)'
+                : 'rgba(0,0,0,0.92)';
         }
-    });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
     // ── FADE IN ON SCROLL ─────────────────────────────────────
-    const fadeElements = document.querySelectorAll('.fade-in, .project-card, .mission-card, .terminal-panel');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
+    // After the reveal finishes, the helper classes are removed so they
+    // don't override the cards' own hover transitions.
+    if (!reduceMotion && 'IntersectionObserver' in window) {
+        const fadeElements = document.querySelectorAll('.project-card, .mission-card, .terminal-panel, .cert-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    el.classList.add('visible');
+                    observer.unobserve(el);
+                    setTimeout(() => el.classList.remove('fade-in', 'visible'), 700);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(el => {
+            el.classList.add('fade-in');
+            observer.observe(el);
         });
-    }, { threshold: 0.1 });
+    }
 
-    fadeElements.forEach(el => {
-        el.classList.add('fade-in');
-        observer.observe(el);
-    });
+    // ── CERTIFICATE VIEWER ────────────────────────────────────
+    const dialog = document.getElementById('certDialog');
+    if (dialog) {
+        document.querySelectorAll('[data-cert-open]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (typeof dialog.showModal === 'function') dialog.showModal();
+                else dialog.setAttribute('open', '');
+            });
+        });
 
-    // ── PAGE LOAD FADE IN ─────────────────────────────────────
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.4s ease';
-    setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 60);
+        const closeDialog = () => {
+            if (typeof dialog.close === 'function') dialog.close();
+            else dialog.removeAttribute('open');
+        };
+
+        dialog.querySelector('[data-cert-close]').addEventListener('click', closeDialog);
+
+        // Click on the dark backdrop closes it (Esc already works natively)
+        dialog.addEventListener('click', e => {
+            if (e.target === dialog) closeDialog();
+        });
+    }
 
 });

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap');
+/* Fonts are loaded from index.html (<link>), no @import needed here. */
 
 :root {
     --void:           #000000;
@@ -11,6 +11,9 @@
     --red-ember:      #3d0808;
     --text-primary:   #f0ede8;
     --text-secondary: #8a8580;
+    /* Readable muted text (~5:1 on dark surfaces). Use this for any real text. */
+    --text-muted:     #85807a;
+    /* Decorative only (borders, dividers) — too dark for text. */
     --text-dim:       #3a3835;
     --star-white:     #ffffff;
     --nebula:         rgba(204, 26, 26, 0.06);
@@ -20,7 +23,6 @@
 * {
     margin: 0; padding: 0;
     box-sizing: border-box;
-    cursor: none;
 }
 html { scroll-behavior: smooth; }
 body {
@@ -41,7 +43,23 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--red-dim); }
 ::-webkit-scrollbar-thumb:hover { background: var(--red-core); }
 
-/* ── CUSTOM CURSOR ────────────────────────────────── */
+:focus-visible {
+    outline: 2px solid var(--red-glow);
+    outline-offset: 3px;
+}
+
+/* ── CUSTOM CURSOR (mouse users only) ─────────────── */
+.cursor, .cursor-ring { display: none; }
+
+@media (hover: hover) and (pointer: fine) {
+    * { cursor: none; }
+    .cursor, .cursor-ring {
+        display: block;
+        opacity: 0; /* revealed by JS on first mouse move */
+    }
+    .cursor.is-active, .cursor-ring.is-active { opacity: 1; }
+}
+
 .cursor {
     position: fixed;
     width: 8px; height: 8px;
@@ -49,7 +67,6 @@ body {
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
-    transition: transform 0.1s ease;
     transform: translate(-50%, -50%);
 }
 .cursor-ring {
@@ -59,7 +76,7 @@ body {
     border-radius: 50%;
     pointer-events: none;
     z-index: 9998;
-    transition: all 0.12s ease;
+    transition: transform 0.12s ease, border-color 0.12s ease;
     transform: translate(-50%, -50%);
 }
 
@@ -138,6 +155,7 @@ body {
     transition: 0.3s;
 }
 .navbar-toggler:focus { box-shadow: none; }
+.navbar-toggler:focus-visible { outline: 2px solid var(--red-glow); }
 
 /* ── HERO ─────────────────────────────────────────── */
 .hero-section {
@@ -175,7 +193,7 @@ body {
 .hero-label {
     font-family: 'DM Mono', monospace;
     font-size: 0.75rem;
-    color: var(--red-core);
+    color: var(--red-glow);
     letter-spacing: 0.3em;
     margin-bottom: 1.2rem;
     opacity: 0;
@@ -206,7 +224,7 @@ body {
 .hero-meta {
     font-family: 'DM Mono', monospace;
     font-size: 0.8rem;
-    color: var(--text-dim);
+    color: var(--text-muted);
     letter-spacing: 0.05em;
     margin-bottom: 2.5rem;
     opacity: 0;
@@ -309,9 +327,6 @@ body {
     position: relative;
     background: var(--deep);
 }
-.section:nth-child(even) {
-    background: var(--void);
-}
 
 .section-bg-number {
     position: absolute;
@@ -337,7 +352,7 @@ body {
 .section-number {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1rem;
-    color: var(--red-core);
+    color: var(--red-glow);
     letter-spacing: 0.1em;
     min-width: 28px;
 }
@@ -357,6 +372,8 @@ body {
 }
 
 /* ── ABOUT ────────────────────────────────────────── */
+.about-section { background: var(--deep); }
+
 .about-text p {
     font-family: 'DM Mono', monospace;
     font-size: 0.9rem;
@@ -386,7 +403,7 @@ body {
 .mission-label {
     font-family: 'DM Mono', monospace;
     font-size: 0.7rem;
-    color: var(--red-core);
+    color: var(--red-glow);
     letter-spacing: 0.12em;
     min-width: 80px;
 }
@@ -542,7 +559,7 @@ body {
     line-height: 1.5;
 }
 .detail-label {
-    color: var(--red-core);
+    color: var(--red-glow);
     letter-spacing: 0.08em;
     min-width: 60px;
     flex-shrink: 0;
@@ -551,7 +568,7 @@ body {
     color: var(--red-dim);
 }
 .detail-value {
-    color: var(--text-dim);
+    color: var(--text-muted);
 }
 
 .project-tags {
@@ -563,7 +580,7 @@ body {
 .tag {
     font-family: 'DM Mono', monospace;
     font-size: 0.65rem;
-    color: var(--red-core);
+    color: var(--red-glow);
     border: 1px solid var(--red-ember);
     padding: 3px 10px;
     letter-spacing: 0.06em;
@@ -628,7 +645,7 @@ body {
 .terminal-title {
     font-family: 'DM Mono', monospace;
     font-size: 0.7rem;
-    color: var(--text-dim);
+    color: var(--text-muted);
     margin-left: 10px;
     letter-spacing: 0.08em;
 }
@@ -641,6 +658,8 @@ body {
     color: var(--red-dim);
     letter-spacing: 0.1em;
     margin-bottom: 1.2rem;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .skill-row {
     display: flex;
@@ -653,7 +672,7 @@ body {
 .skill-category {
     font-family: 'DM Mono', monospace;
     font-size: 0.7rem;
-    color: var(--red-core);
+    color: var(--red-glow);
     letter-spacing: 0.15em;
     min-width: 160px;
     flex-shrink: 0;
@@ -662,10 +681,144 @@ body {
     font-family: 'DM Mono', monospace;
     font-size: 0.82rem;
     color: var(--text-secondary);
+    white-space: pre-wrap;
 }
 
+/* ── CERTIFICATIONS ───────────────────────────────── */
+.certs-section { background: var(--void); }
+
+.cert-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.cert-card {
+    display: flex;
+    gap: 0;
+    background: var(--surface);
+    border: 1px solid var(--red-ember);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.cert-card:hover {
+    border-color: var(--red-dim);
+    box-shadow: 0 20px 60px rgba(204, 26, 26, 0.12);
+}
+
+.cert-thumb {
+    position: relative;
+    flex: 0 0 42%;
+    max-width: 480px;
+    padding: 0;
+    border: 0;
+    border-right: 1px solid var(--red-ember);
+    background: var(--surface-2);
+    display: block;
+    overflow: hidden;
+}
+.cert-thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.cert-thumb:hover img { transform: scale(1.03); }
+.cert-thumb-hint {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 8px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    color: var(--text-primary);
+    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+    text-align: left;
+}
+
+.cert-body {
+    flex: 1;
+    padding: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+.cert-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    letter-spacing: 0.08em;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+}
+.cert-issuer {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--red-glow);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.9rem;
+}
+.cert-points {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.cert-points li {
+    position: relative;
+    padding-left: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+}
+.cert-points li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--red-core);
+}
+button.link-demo { font-family: 'Barlow Condensed', sans-serif; }
+
+/* Certificate viewer */
+.cert-dialog {
+    border: 1px solid var(--red-dim);
+    background: var(--void);
+    padding: 0;
+    max-width: min(94vw, 1100px);
+    max-height: 92vh;
+    margin: auto;
+    overflow: auto;
+    color: var(--text-primary);
+}
+.cert-dialog::backdrop { background: rgba(0, 0, 0, 0.88); }
+.cert-dialog img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+.cert-dialog-close {
+    position: sticky;
+    top: 0;
+    float: right;
+    z-index: 2;
+    margin: 10px;
+    padding: 6px 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: white;
+    background: var(--red-core);
+    border: 0;
+}
+.cert-dialog-close:hover { background: var(--red-glow); }
+/* Show the normal cursor inside the dialog (it sits above the custom cursor) */
+.cert-dialog, .cert-dialog * { cursor: auto; }
+.cert-dialog-close { cursor: pointer; }
+
 /* ── CONTACT ──────────────────────────────────────── */
-.contact-section { background: var(--void); }
+.contact-section { background: var(--deep); border-top: 1px solid var(--red-ember); }
 
 .contact-tagline {
     font-family: 'Bebas Neue', sans-serif;
@@ -713,7 +866,7 @@ body {
 .form-label-custom {
     font-family: 'DM Mono', monospace;
     font-size: 0.68rem;
-    color: var(--red-core);
+    color: var(--red-glow);
     letter-spacing: 0.18em;
 }
 .form-input {
@@ -728,11 +881,12 @@ body {
     outline: none;
     width: 100%;
 }
-.form-input::placeholder { color: var(--text-dim); }
+.form-input::placeholder { color: var(--text-muted); opacity: 0.8; }
 .form-input:focus {
     border-color: var(--red-core);
     background: var(--surface-2);
 }
+.form-input:focus-visible { outline: 2px solid var(--red-glow); outline-offset: 2px; }
 .form-textarea { resize: vertical; min-height: 130px; }
 
 /* ── FOOTER ───────────────────────────────────────── */
@@ -745,11 +899,13 @@ body {
 .footer-text {
     font-family: 'DM Mono', monospace;
     font-size: 0.72rem;
-    color: var(--text-dim);
+    color: var(--text-muted);
     letter-spacing: 0.1em;
 }
 
-/* ── FADE-IN SCROLL ───────────────────────────────── */
+/* ── FADE-IN ON SCROLL ────────────────────────────── */
+/* The classes are removed by script.js once the reveal ends,
+   so they never interfere with the cards' hover transitions. */
 .fade-in {
     opacity: 0;
     transform: translateY(24px);
@@ -764,10 +920,15 @@ body {
 @media (max-width: 991px) {
     .hero-name { font-size: clamp(4rem, 14vw, 8rem); }
     .section { padding: 80px 0; }
+    .cert-card { flex-direction: column; }
+    .cert-thumb {
+        flex: none;
+        max-width: none;
+        border-right: 0;
+        border-bottom: 1px solid var(--red-ember);
+    }
 }
 @media (max-width: 768px) {
-    * { cursor: auto; }
-    .cursor, .cursor-ring { display: none; }
     .hero-name { font-size: clamp(3.5rem, 16vw, 6rem); }
     .hero-ctas { flex-direction: column; align-items: flex-start; }
     .btn-primary-cta, .btn-secondary-cta { width: 100%; text-align: center; }
@@ -775,7 +936,8 @@ body {
     .skill-row { flex-direction: column; gap: 0.4rem; }
     .skill-category { min-width: unset; }
     .section-bg-number { font-size: 7rem; }
-    .navbar, .neon-card {
+    .section-title { font-size: 1.5rem; letter-spacing: 0.12em; white-space: normal; }
+    .navbar {
         -webkit-backdrop-filter: none;
         backdrop-filter: none;
     }
@@ -784,4 +946,19 @@ body {
     .hero-name { font-size: 3rem; }
     .section { padding: 60px 0; }
     .terminal-body { padding: 1.2rem; }
+    .cert-body { padding: 1.3rem; }
+}
+
+/* ── REDUCED MOTION ───────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    .hero-label, .hero-name, .hero-typewriter, .hero-meta, .hero-ctas, .hero-divider {
+        opacity: 1;
+    }
+    .fade-in { opacity: 1; transform: none; }
 }
