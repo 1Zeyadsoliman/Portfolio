@@ -30,7 +30,7 @@ This portfolio highlights my ability to work with both core web technologies and
 
 ## 🏆 Certifications
 
-* 🎓 **Advanced Web Development (ASP.NET)** — RAY Group (Regional AI Yard Group) | 2025
+* 🎓 **Advanced Web Development (ASP.NET)** — RAY Group (Regional AI Yard Group) | 2026
 * 🎓 **Front-End Development** — Div Academy | 2024
 
 ---
